@@ -1,0 +1,31 @@
+# =============================================================================
+# PRODUCTION ENVIRONMENT CONFIGURATION
+# =============================================================================
+# Copy this file to terraform.tfvars and update with your values
+
+# AWS Configuration
+aws_region = "us-east-1"
+owner      = "dstorey87"
+
+# Domain Configuration  
+domain_name = "python-portal-real.nf0keysv54fy8.eu-west-1.cs.amazonlightsail.com"
+
+# Monitoring & Alerts
+notification_email   = "your-email@example.com"
+annual_budget_limit  = 85  # Maximum $85/year
+
+# Security (Generate secure random values)
+jwt_secret     = "your-super-secure-jwt-secret-here"
+session_secret = "your-super-secure-session-secret-here"
+
+# Container Configuration
+container_images = {
+  frontend = "ghcr.io/dstorey87/python-portal-frontend:v1.0.0"
+  backend  = "ghcr.io/dstorey87/python-portal-backend:v1.0.0"
+  executor = "ghcr.io/dstorey87/python-portal-executor:v1.0.0"
+}
+
+# Feature Flags
+enable_monitoring   = true
+enable_auto_scaling = false  # Keep disabled for cost control
+deployment_timeout  = 30
