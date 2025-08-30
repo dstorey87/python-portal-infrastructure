@@ -1,0 +1,71 @@
+# =============================================================================
+# TERRAFORM DEPLOYMENT SCRIPTS
+# Production & Development Environment Management
+# =============================================================================
+
+# Initialize Terraform
+task init {
+  description = "Initialize Terraform for all environments"
+  
+  production {
+    terraform init -backend-config="production/backend.hcl"
+  }
+  
+  development {
+    terraform init -backend-config="development/backend.hcl"
+  }
+}
+
+# Plan deployments
+task plan {
+  description = "Plan Terraform changes"
+  
+  production {
+    terraform plan -var-file="production/terraform.tfvars" -out="production.tfplan"
+  }
+  
+  development {
+    terraform plan -var-file="development/terraform.tfvars" -out="development.tfplan"
+  }
+}
+
+# Apply changes
+task apply {
+  description = "Apply Terraform changes"
+  
+  production {
+    terraform apply "production.tfplan"
+  }
+  
+  development {
+    terraform apply "development.tfplan"
+  }
+}
+
+# Destroy resources
+task destroy {
+  description = "Destroy Terraform resources"
+  
+  production {
+    terraform destroy -var-file="production/terraform.tfvars"
+  }
+  
+  development {
+    terraform destroy -var-file="development/terraform.tfvars"
+  }
+}
+
+# Cost estimation
+task cost {
+  description = "Estimate deployment costs"
+  
+  production {
+    terraform plan -var-file="production/terraform.tfvars" | grep -E "Plan:|Changes|"
+    echo "Estimated monthly cost: ~$7 (Lightsail nano instance)"
+  }
+  
+  development {
+    terraform plan -var-file="development/terraform.tfvars" | grep -E "Plan:|Changes|"
+    echo "Estimated monthly cost: ~$7 (Lightsail nano instance)"
+  }
+}
